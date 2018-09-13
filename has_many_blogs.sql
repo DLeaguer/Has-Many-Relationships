@@ -9,7 +9,6 @@ CREATE DATABASE has_many_blogs;
 -- Create the necessary FKs needed to relate the tables according to the **relationship table** below.
 
 DROP TABLE IF EXISTS users;
--- 207ms 1row
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -19,13 +18,11 @@ CREATE TABLE users (
   created_at TIMESTAMP with time zone NOT NULL default now(),
   updated_at TIMESTAMP with time zone NOT NULL default now()
 );
--- 137ms 1row without foreign keys
--- 324ms 1row 
+
 ALTER TABLE users ALTER COLUMN updated_at set DEFAULT current_timestamp;
 ALTER TABLE users ALTER COLUMN created_at set DEFAULT current_timestamp;
 
 DROP TABLE IF EXISTS posts
--- 42ms 1row
 
 CREATE TABLE posts (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -37,14 +34,11 @@ CREATE TABLE posts (
   user_id INTEGER NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id)
 );
--- 88ms 1row without foreign keys
--- 316ms 1row
 
 -- delete all content in table along with references to other tables
 TRUNCATE TABLE posts CASCADE;
 
 DROP TABLE IF EXISTS comments
--- 35ms 1row
 
 CREATE TABLE comments (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -56,8 +50,6 @@ CREATE TABLE comments (
   FOREIGN KEY (user_id) REFERENCES users (id),
   FOREIGN KEY (post_id) REFERENCES posts (id)
 );
--- 87ms 1row without foreign keys
--- 513ms 1row
 
 -- ADD if does not exist, from Wymin
 -- ALTER TABLE posts ADD user_id INTEGER NOT NULL;
